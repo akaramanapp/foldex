@@ -1,0 +1,52 @@
+{
+  "name": "foldex-mcp",
+  "version": "0.1.5",
+  "description": "Every project your AI ever started, indexed. An MCP server that keeps a live index of your local projects.",
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "projects",
+    "index",
+    "cursor",
+    "claude"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/akaramanapp/foldex.git"
+  },
+  "homepage": "https://github.com/akaramanapp/foldex#readme",
+  "bugs": {
+    "url": "https://github.com/akaramanapp/foldex/issues"
+  },
+  "type": "module",
+  "bin": {
+    "foldex-mcp": "dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run typecheck && npm test && npm run build"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.2",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "tsup": "^9.0.0",
+    "typescript": "^7.0.2",
+    "vitest": "^5.1.0"
+  }
+}

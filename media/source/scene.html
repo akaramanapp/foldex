@@ -1,0 +1,424 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Foldex Intro</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=block">
+<style>
+/* Layout: one 1280x720 stage; a cartoon monitor holds every scene, captions sit under it, the outro replaces it. */
+:root {
+  --bg: #2F45E8; --bg-deep: #2236C4; --ink: #141433; --paper: #FFFFFF; --muted: #6A6E92; --line: #E1E3F4;
+  --tang: #FF8A3D; --mint: #2ED39A; --pink: #FF6FB1; --sun: #FFC93C; --sky: #5CC8FF; --accent: #2F45E8;
+  --display: "Bricolage Grotesque", "Avenir Next", system-ui, sans-serif;
+  --body: "Inter", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+}
+* { box-sizing: border-box; margin: 0; }
+html, body { width: 1280px; height: 720px; overflow: hidden; background: var(--bg); }
+.abs { position: absolute; }
+#stage { position: absolute; inset: 0; overflow: hidden; font-family: var(--body); color: var(--ink);
+  background: radial-gradient(ellipse at 50% 38%, #3B54FF 0%, var(--bg) 52%, var(--bg-deep) 100%); }
+#stage::before { content: ""; position: absolute; inset: 0;
+  background-image: radial-gradient(rgba(255,255,255,.11) 1.6px, transparent 1.8px); background-size: 30px 30px; }
+
+#computer { position: absolute; inset: 0; transform-origin: 640px 290px; }
+#monitor { left: 230px; top: 26px; width: 820px; height: 500px; background: var(--ink); border-radius: 26px;
+  box-shadow: 0 34px 60px rgba(8, 10, 70, .38); }
+#screen { left: 18px; top: 18px; width: 784px; height: 464px; border-radius: 12px; overflow: hidden;
+  background: linear-gradient(155deg, #F7F1FF 0%, #E8EEFF 60%, #E2F6FF 100%); }
+#neck { left: 604px; top: 524px; width: 72px; height: 48px; background: var(--ink); }
+#base { left: 530px; top: 566px; width: 220px; height: 18px; border-radius: 9px; background: var(--ink); }
+
+#menubar { left: 0; top: 0; width: 784px; height: 26px; background: rgba(255,255,255,.72);
+  display: flex; align-items: center; justify-content: space-between; padding: 0 14px;
+  font: 500 11px var(--mono); color: var(--ink); }
+#menubar .dots { display: flex; gap: 6px; }
+#menubar .dots i { width: 9px; height: 9px; border-radius: 50%; background: #FF6B6B; display: block; }
+#menubar .dots i:nth-child(2) { background: var(--sun); }
+#menubar .dots i:nth-child(3) { background: var(--mint); }
+
+.folder { position: absolute; width: 96px; height: 80px; margin: -40px 0 0 -48px; }
+.fshape { position: absolute; left: 16px; top: 8px; width: 64px; height: 46px; border-radius: 7px; background: var(--c);
+  box-shadow: inset 0 -7px 0 rgba(0,0,0,.08); }
+.ftab { position: absolute; left: 0; top: -7px; width: 28px; height: 12px; border-radius: 5px 5px 0 0; background: var(--c);
+  filter: brightness(.86); z-index: -1; }
+.flabel { position: absolute; top: 59px; left: -6px; width: 108px; text-align: center; font: 500 10.5px var(--mono);
+  color: var(--ink); white-space: nowrap; }
+#glow { position: absolute; width: 96px; height: 96px; border-radius: 50%; margin: -52px 0 0 -48px;
+  background: radial-gradient(circle, rgba(46,211,154,.55) 0%, rgba(46,211,154,0) 70%); }
+
+#chat { left: 140px; top: 52px; width: 500px; height: 352px; background: var(--paper); border-radius: 18px;
+  box-shadow: 0 18px 40px rgba(20,20,51,.18); overflow: hidden; }
+#chat .head { height: 44px; border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 10px; padding: 0 18px;
+  font: 700 15px var(--display); }
+#chat .head .spark { width: 20px; height: 20px; border-radius: 6px; background: var(--tang); }
+.bubble { position: absolute; font: 500 15px/1.4 var(--body); padding: 10px 14px; border-radius: 14px; max-width: 360px; }
+#mUser { right: 18px; top: 62px; background: var(--accent); color: #fff; border-bottom-right-radius: 4px; }
+#mAi { left: 18px; top: 128px; background: #F0F1FA; color: var(--ink); border-bottom-left-radius: 4px; }
+#mAi code, .mono { font-family: var(--mono); font-size: 13.5px; }
+#mTool { left: 18px; top: 190px; font: 500 13px var(--mono); color: #0A7550; background: #E6FAF1; border: 1.5px solid var(--mint);
+  border-radius: 999px; padding: 6px 14px; display: flex; gap: 8px; align-items: center; }
+#mTool b { font-weight: 700; }
+#mSaved { left: 18px; top: 236px; width: 464px; background: #FFF7E1; border: 1.5px solid var(--sun); border-radius: 14px; padding: 12px 16px; }
+#mSaved small { display: block; font: 700 11px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: #9A6B00; margin-bottom: 4px; }
+#mSaved p { font: 700 19px/1.25 var(--display); color: var(--ink); }
+.caret { display: inline-block; width: 2px; height: 1.05em; background: currentColor; vertical-align: -0.15em; margin-left: 2px; }
+
+#indexBg { left: 0; top: 0; width: 784px; height: 464px; background: #F7F8FD; }
+#indexHead { left: 0; top: 0; width: 784px; height: 64px; }
+#wordmark { left: 19px; top: 18px; font: 800 22px var(--display); display: flex; align-items: center; gap: 8px; }
+#wordmark i { width: 18px; height: 14px; background: var(--tang); border-radius: 3px; display: block; position: relative; }
+#wordmark i::before { content: ""; position: absolute; left: 0; top: -4px; width: 8px; height: 5px; background: var(--tang); border-radius: 2px 2px 0 0; filter: brightness(.86); }
+#search { left: 150px; top: 14px; width: 330px; height: 38px; background: var(--paper); border: 1.5px solid var(--line); border-radius: 10px;
+  display: flex; align-items: center; gap: 10px; padding: 0 12px; font: 500 15px var(--mono); color: var(--ink); }
+#search .glass { width: 13px; height: 13px; border: 2px solid var(--muted); border-radius: 50%; position: relative; flex: none; }
+#search .glass::after { content: ""; position: absolute; width: 6px; height: 2px; background: var(--muted); right: -6px; bottom: -3px; transform: rotate(45deg); }
+#search .ph { color: #A3A6C4; }
+#count { right: 22px; top: 25px; font: 500 13px var(--mono); color: var(--muted); }
+
+.card { position: absolute; width: 176px; height: 176px; background: var(--paper); border: 1.5px solid var(--line); border-radius: 14px;
+  padding: 13px 14px 12px; display: flex; flex-direction: column; gap: 7px; }
+.card .name { font: 700 15px var(--display); display: flex; align-items: center; gap: 7px; white-space: nowrap; }
+.card .name i { width: 10px; height: 10px; border-radius: 3px; background: var(--c); flex: none; display: block; }
+.card .sum { font: 400 12.5px/1.38 var(--body); color: #3A3D5E; }
+.card .chips { display: flex; gap: 4px; flex-wrap: wrap; }
+.card .chips span { font: 500 10.5px var(--mono); background: #EEF0FA; border-radius: 5px; padding: 2px 6px; }
+.card .foot { margin-top: auto; display: flex; justify-content: space-between; align-items: center; font: 500 11px var(--body); color: var(--muted); }
+.card .foot b { font: 700 12px var(--body); color: var(--accent); }
+
+#session { left: 0; top: 0; width: 784px; height: 464px; background: var(--paper); display: flex; }
+#session .side { width: 214px; background: #EEF0FB; padding: 18px 12px; display: flex; flex-direction: column; gap: 6px; }
+#session .side h4 { font: 700 11px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); padding: 0 8px 6px; }
+#session .side div { font: 500 13px var(--body); padding: 8px 10px; border-radius: 8px; color: #3A3D5E; }
+#session .side div.on { background: var(--paper); color: var(--ink); font-weight: 600; box-shadow: 0 1px 0 var(--line); }
+#session .main { flex: 1; position: relative; padding: 22px 26px; }
+#session h3 { font: 800 22px var(--display); }
+#session .path { font: 500 12px var(--mono); color: var(--muted); margin-top: 4px; }
+#sUser { right: 26px; top: 104px; background: var(--accent); color: #fff; border-bottom-right-radius: 4px; }
+#sAi { left: 26px; top: 170px; background: #F0F1FA; border-bottom-left-radius: 4px; }
+#session .reply { position: absolute; left: 26px; right: 26px; bottom: 22px; height: 44px; border: 1.5px solid var(--line); border-radius: 12px;
+  font: 500 14px var(--body); color: #A3A6C4; display: flex; align-items: center; padding: 0 14px; }
+
+#cursor { left: 0; top: 0; width: 26px; height: 34px; transform-origin: 2px 2px; }
+#ripple { width: 60px; height: 60px; margin: -30px 0 0 -30px; border-radius: 50%; border: 3px solid var(--accent); }
+
+#cap { left: 0; top: 606px; width: 1280px; height: 100px; }
+.capline { position: absolute; left: 0; top: 0; width: 1280px; text-align: center; font: 700 36px/1.2 var(--display); color: #fff;
+  letter-spacing: -0.01em; text-shadow: 0 3px 0 rgba(10, 14, 90, .35); padding: 0 80px; }
+
+#outro { inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 22px; color: #fff; }
+#oIcon { width: 150px; height: 104px; position: relative; }
+#oIcon .folder { left: 75px; top: 52px; transform-origin: 48px 40px; }
+#oTitle { font: 800 118px/1 var(--display); letter-spacing: -0.035em; }
+#oTag { font: 600 32px var(--display); color: rgba(255,255,255,.9); }
+#oCmd { font: 700 27px var(--mono); background: rgba(255,255,255,.14); border: 2px solid rgba(255,255,255,.35); border-radius: 16px; padding: 14px 28px; min-width: 380px; text-align: center; }
+#oCmd .p { color: var(--sun); margin-right: 14px; }
+#oFoot { font: 500 19px var(--body); color: rgba(255,255,255,.75); }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="computer">
+    <div id="monitor" class="abs">
+      <div id="screen" class="abs">
+        <div id="menubar" class="abs"><span class="dots"><i></i><i></i><i></i></span><span>~/projects</span><span id="fcount">0 folders</span></div>
+        <div id="indexBg" class="abs"></div>
+        <div id="folders" class="abs" style="inset:0"></div>
+        <div id="cards" class="abs" style="inset:0"></div>
+        <div id="indexHead" class="abs">
+          <div id="wordmark" class="abs"><i></i>Foldex</div>
+          <div id="search" class="abs"><span class="glass"></span><span id="q"></span></div>
+          <div id="count" class="abs"></div>
+        </div>
+        <div id="chat" class="abs">
+          <div class="head"><span class="spark"></span>Claude</div>
+          <div id="mUser" class="bubble"><span id="mUserText"></span><span id="mCaret" class="caret"></span></div>
+          <div id="mAi" class="bubble"></div>
+          <div id="mTool" class="abs"><span>●</span><b>foldex</b> · update_project <span>✓</span></div>
+          <div id="mSaved" class="abs"><small id="mSavedLabel"></small><p id="mSavedText"></p></div>
+        </div>
+        <div id="session" class="abs">
+          <div class="side" id="sSide"></div>
+          <div class="main">
+            <h3 id="sTitle"></h3>
+            <div class="path">~/projects/pdf-signer</div>
+            <div id="sUser" class="bubble"></div>
+            <div id="sAi" class="bubble"></div>
+            <div class="reply" id="sReply"></div>
+          </div>
+        </div>
+        <div id="ripple" class="abs"></div>
+        <svg id="cursor" class="abs" viewBox="0 0 26 34"><path d="M2 2 L2 27 L8.5 21 L13 31.5 L17.5 29.5 L13 19.5 L22 19.5 Z" fill="#141433" stroke="#fff" stroke-width="2" stroke-linejoin="round"/></svg>
+      </div>
+    </div>
+    <div id="neck" class="abs"></div>
+    <div id="base" class="abs"></div>
+  </div>
+  <div id="cap" class="abs"></div>
+  <div id="outro" class="abs">
+    <div id="oIcon"></div>
+    <div id="oTitle">Foldex</div>
+    <div id="oTag"></div>
+    <div id="oCmd"><span class="p">$</span><span id="oCmdText"></span></div>
+    <div id="oFoot"></div>
+  </div>
+</div>
+<script>
+const LANG = new URLSearchParams(location.search).get("lang") === "tr" ? "tr" : "en";
+const TEXT = {
+  en: {
+    caps: [
+      [0.3, 2.35, "AI makes starting a project take minutes."],
+      [2.5, 3.95, "Remembering what each one does? Not so much."],
+      [4.4, 8.4, "Foldex indexes every new project the moment it's created."],
+      [8.9, 12.9, "All of them on one page, summarized by your own AI."],
+      [13.2, 16.7, "Built something like this before? Search and find it."],
+      [17.0, 20.3, "One click takes you back to its Claude session."],
+    ],
+    folders: (n) => `${n} folders`,
+    user: "Write a script that merges my bank CSVs.",
+    ai: 'Done! Created <code>csv-merge/merge.py</code>',
+    savedLabel: "Summary saved",
+    saved: "“Merges monthly bank CSVs into one report.”",
+    count: (n) => `${n} projects`,
+    of: (a, b) => `${a} of ${b}`,
+    sum: ["Pulls totals out of PDF invoices into a spreadsheet.", "Merges monthly bank CSVs into one report.", "Returns a random superhero, or two.",
+      "Scans receipts and files them by month.", "Checks the digital signatures on PDF contracts.", "Plans a road trip around all your stops.",
+      "Classic snake, right in the terminal.", "A tiny voice assistant on an ESP32 board."],
+    ago: ["today", "today", "2d ago", "1w ago", "3w ago", "2mo ago", "5mo ago", "1y ago"],
+    sessionsTitle: "Sessions",
+    sessions: ["PDF signature checker", "Invoice totals to Excel", "Random hero function", "Road trip planner"],
+    sUser: "Also flag certificates that have expired.",
+    sAi: "Done. Expired certificates now show a warning.",
+    reply: "Reply…",
+    tag: "Every project your AI ever started, indexed.",
+    foot: "One config line  ·  No API key  ·  Nothing leaves your machine",
+  },
+  tr: {
+    caps: [
+      [0.3, 2.35, "Yapay zekayla proje başlatmak artık dakikalar sürüyor."],
+      [2.5, 3.95, "Hangisinin ne yaptığını hatırlamak ise zor."],
+      [4.4, 8.4, "Foldex her yeni projeyi doğduğu anda indeksler."],
+      [8.9, 12.9, "Hepsi tek sayfada, kendi yapay zekanın özetleriyle."],
+      [13.2, 16.7, "Benzerini daha önce yapmış mıydın? Ara ve bul."],
+      [17.0, 20.3, "Tek tıkla o projenin Claude oturumuna dön."],
+    ],
+    folders: (n) => `${n} klasör`,
+    user: "Banka CSV'lerimi birleştiren bir script yaz.",
+    ai: 'Tamam! <code>csv-merge/merge.py</code> oluşturuldu.',
+    savedLabel: "Özet kaydedildi",
+    saved: "“Aylık banka CSV'lerini tek raporda birleştirir.”",
+    count: (n) => `${n} proje`,
+    of: (a, b) => `${a} / ${b}`,
+    sum: ["PDF faturalardaki tutarları tabloya aktarır.", "Aylık banka CSV'lerini tek raporda birleştirir.", "Rastgele bir süper kahraman döndürür, ya da iki.",
+      "Fişleri tarar ve aylara göre dosyalar.", "PDF sözleşmelerdeki dijital imzaları doğrular.", "Tüm duraklarına göre bir yol gezisi planlar.",
+      "Klasik yılan oyunu, doğrudan terminalde.", "ESP32 kartında minik bir sesli asistan."],
+    ago: ["bugün", "bugün", "2 gün önce", "1 hafta önce", "3 hafta önce", "2 ay önce", "5 ay önce", "1 yıl önce"],
+    sessionsTitle: "Oturumlar",
+    sessions: ["PDF imza doğrulayıcı", "Fatura tutarlarını Excel'e", "Rastgele kahraman fonksiyonu", "Yol gezisi planlayıcı"],
+    sUser: "Süresi dolmuş sertifikaları da işaretle.",
+    sAi: "Tamam. Süresi dolan sertifikalar artık uyarı gösteriyor.",
+    reply: "Yanıtla…",
+    tag: "Yapay zekanın başlattığı her proje, tek bir indekste.",
+    foot: "Tek satır kurulum  ·  API anahtarı yok  ·  Hiçbir veri bilgisayarından çıkmaz",
+  },
+}[LANG];
+
+window.DURATION = 25;
+const $ = (id) => document.getElementById(id);
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const seg = (t, a, b) => clamp((t - a) / (b - a));
+const lerp = (a, b, p) => a + (b - a) * p;
+const easeOut = (x) => 1 - Math.pow(1 - x, 3);
+const easeInOut = (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+const easeBack = (x) => { const c1 = 1.9, c3 = c1 + 1; return x <= 0 ? 0 : 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); };
+function rng(seed) { return () => { seed |= 0; seed = (seed + 0x6d2b79f5) | 0; let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+  t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
+const rand = rng(7);
+const COLORS = ["var(--tang)", "var(--mint)", "var(--pink)", "var(--sun)", "var(--sky)"];
+
+// Cards, in slot order. Card 1 (csv-merge) is born in scene 2; the rest already sit on the desktop.
+const CARDS = [
+  { name: "invoice-parser", tech: ["Python", "#pdf"], c: COLORS[0], pdf: true },
+  { name: "csv-merge", tech: ["Python", "#csv"], c: COLORS[1] },
+  { name: "hero-search", tech: ["Node.js"], c: COLORS[2] },
+  { name: "receipt-vault", tech: ["React Native"], c: COLORS[3] },
+  { name: "pdf-signer", tech: ["Java", "#pdf"], c: COLORS[4], pdf: true },
+  { name: "travel-route", tech: ["React"], c: COLORS[2] },
+  { name: "snake-game", tech: ["Python"], c: COLORS[0] },
+  { name: "esp32-buddy", tech: ["C++"], c: COLORS[3] },
+];
+const JUNK = ["untitled-3", "test-final", "new-app-v2", "demo", "try-again", "scratch", "app-copy", "ai-thing", "mvp",
+  "temp-2", "final-final", "playground", "landing-v4", "bot-test", "sandbox", "quick-idea", "old-stuff", "hello-world"];
+
+const slot = (i) => ({ x: 19 + (i % 4) * 190, y: 74 + Math.floor(i / 4) * 190 });
+const NEW_POS = { x: 712, y: 318 };
+
+// Desktop cells: 8x4 grid, minus the two right-hand cells where csv-merge will appear.
+const cells = [];
+for (let r = 0; r < 4; r++) for (let c = 0; c < 8; c++) if (!(c === 7 && r >= 2)) cells.push({ x: 66 + c * 93, y: 84 + r * 104 });
+for (let i = cells.length - 1; i > 0; i--) { const j = Math.floor(rand() * (i + 1)); [cells[i], cells[j]] = [cells[j], cells[i]]; }
+
+function makeFolder(name, color) {
+  const el = document.createElement("div");
+  el.className = "folder";
+  el.style.setProperty("--c", color);
+  el.innerHTML = `<div class="fshape"><div class="ftab"></div></div><div class="flabel">${name}</div>`;
+  return el;
+}
+
+// Desktop folders: 7 card projects + 18 junk, in a shuffled pop-in order.
+const desk = [];
+const deskNames = [...CARDS.map((c, i) => ({ name: c.name, card: i, c: c.c })).filter((d) => d.card !== 1),
+  ...JUNK.map((n, k) => ({ name: n, card: -1, c: COLORS[(k + 2) % COLORS.length] }))];
+const order = deskNames.map((_, i) => i);
+for (let i = order.length - 1; i > 0; i--) { const j = Math.floor(rand() * (i + 1)); [order[i], order[j]] = [order[j], order[i]]; }
+order.forEach((idx, k) => {
+  const d = deskNames[idx];
+  const el = makeFolder(d.name, d.c);
+  $("folders").appendChild(el);
+  desk.push({ ...d, el, pos: cells[k], born: 0.25 + k * 0.13, rot: (rand() - 0.5) * 16, delay: rand() * 0.25 });
+});
+const glow = document.createElement("div"); glow.id = "glow"; $("folders").appendChild(glow);
+const fresh = { name: "csv-merge", card: 1, c: CARDS[1].c, el: makeFolder("csv-merge", CARDS[1].c), pos: NEW_POS, rot: -4, delay: 0 };
+$("folders").appendChild(fresh.el);
+
+const cards = CARDS.map((c, i) => {
+  const el = document.createElement("div");
+  el.className = "card";
+  el.style.setProperty("--c", c.c);
+  el.innerHTML = `<div class="name"><i></i>${c.name}</div><div class="sum">${TEXT.sum[i]}</div>
+    <div class="chips">${c.tech.map((t) => `<span>${t}</span>`).join("")}</div>
+    <div class="foot"><span>${TEXT.ago[i]}</span><b>Claude</b></div>`;
+  $("cards").appendChild(el);
+  return { ...c, el, i };
+});
+
+$("mAi").innerHTML = TEXT.ai;
+$("mSavedLabel").textContent = TEXT.savedLabel;
+$("mSavedText").textContent = TEXT.saved;
+$("sSide").innerHTML = `<h4>${TEXT.sessionsTitle}</h4>` + TEXT.sessions.map((s, i) => `<div class="${i === 0 ? "on" : ""}">${s}</div>`).join("");
+$("sTitle").textContent = TEXT.sessions[0];
+$("sUser").textContent = TEXT.sUser;
+$("sAi").textContent = TEXT.sAi;
+$("sReply").textContent = TEXT.reply;
+$("oTag").textContent = TEXT.tag;
+$("oFoot").textContent = TEXT.foot;
+const capEls = TEXT.caps.map(([a, b, s]) => { const el = document.createElement("div"); el.className = "capline"; el.textContent = s; $("cap").appendChild(el); return { a, b, el }; });
+const oFolders = [COLORS[1], COLORS[2], COLORS[0]].map((c) => { const f = makeFolder("", c); $("oIcon").appendChild(f); return f; });
+
+function set(el, { x = 0, y = 0, s = 1, r = 0, o = 1 } = {}) {
+  el.style.transform = `translate(${x}px, ${y}px) rotate(${r}deg) scale(${s})`;
+  el.style.opacity = o;
+}
+function typed(str, p) { return str.slice(0, Math.round(str.length * clamp(p))); }
+const blink = (t) => (Math.floor(t * 2.2) % 2 === 0 ? 1 : 0);
+
+window.render = function render(t) {
+  // Scene 1: folders pile up on the desktop.
+  const dim = lerp(1, 0.32, easeOut(seg(t, 4.0, 4.5))) + (1 - 0.32) * easeOut(seg(t, 8.3, 8.7)) * (t > 8.3 ? 1 : 0);
+  let visible = 0;
+  for (const f of desk) {
+    const pop = easeBack(seg(t, f.born, f.born + 0.38));
+    if (t >= f.born) visible++;
+    const wob = Math.sin((t + f.delay * 10) * 2.2) * 1.6 * (t < 4 ? 1 : 0);
+    let x = f.pos.x, y = f.pos.y, s = pop, o = clamp(pop * 3) * dim, r = f.rot + wob;
+    if (f.card >= 0) {
+      // Scene 3: card folders fly to their slot, then the card takes over.
+      const start = 9.0 + f.card * 0.11, p = easeInOut(seg(t, start, start + 0.7));
+      const sl = slot(f.card);
+      x = lerp(x, sl.x + 88, p); y = lerp(y, sl.y + 80, p); s = lerp(s, 0.75, p); r = lerp(r, 0, p);
+      o *= 1 - seg(t, start + 0.62, start + 0.8);
+    } else {
+      // Junk folders get swept into the project counter.
+      const start = 9.0 + f.delay * 1.6, p = easeInOut(seg(t, start, start + 0.75));
+      x = lerp(x, 700, p); y = lerp(y, 32, p); s *= lerp(1, 0.15, p); o *= 1 - seg(t, start + 0.5, start + 0.75);
+    }
+    f.el.style.left = x + "px"; f.el.style.top = y + "px";
+    set(f.el, { s, r, o });
+  }
+  $("fcount").textContent = TEXT.folders(visible + (t >= 6.2 ? 1 : 0));
+
+  // Scene 2: chat creates csv-merge; Foldex saves it.
+  const chatIn = easeOut(seg(t, 4.1, 4.6)), chatOut = easeInOut(seg(t, 8.3, 8.8));
+  set($("chat"), { y: lerp(24, 0, chatIn) + chatOut * 16, s: lerp(0.94, 1, chatIn) - chatOut * 0.04, o: chatIn * (1 - chatOut) });
+  $("mUserText").textContent = typed(TEXT.user, seg(t, 4.6, 5.8));
+  $("mCaret").style.opacity = t < 5.9 ? blink(t) : 0;
+  const ai = easeOut(seg(t, 6.0, 6.3)), tool = easeBack(seg(t, 6.7, 7.05)), saved = easeBack(seg(t, 7.2, 7.6));
+  set($("mAi"), { y: lerp(10, 0, ai), o: ai });
+  set($("mTool"), { s: lerp(0.6, 1, tool), o: clamp(tool * 2) });
+  set($("mSaved"), { y: lerp(14, 0, saved), s: lerp(0.9, 1, saved), o: clamp(saved * 2) });
+  const born = easeBack(seg(t, 6.2, 6.6));
+  {
+    const p = easeInOut(seg(t, 9.0 + 0.11, 9.0 + 0.11 + 0.7)), sl = slot(1);
+    const x = lerp(NEW_POS.x, sl.x + 88, p), y = lerp(NEW_POS.y, sl.y + 80, p);
+    fresh.el.style.left = x + "px"; fresh.el.style.top = y + "px";
+    set(fresh.el, { s: born * lerp(1.15, 0.75, p), r: lerp(-4, 0, p), o: clamp(born * 3) * (1 - seg(t, 9.73, 9.91)) });
+    glow.style.left = x + "px"; glow.style.top = y + "px";
+    const pulse = 0.85 + 0.25 * Math.sin((t - 6.6) * 5);
+    set(glow, { s: born * pulse * 1.6, o: clamp(born * 2) * (1 - seg(t, 8.6, 9.1)) });
+  }
+
+  // Scene 3: index page with summarized cards.
+  $("indexBg").style.opacity = easeOut(seg(t, 8.8, 9.3));
+  $("indexHead").style.opacity = easeOut(seg(t, 9.15, 9.6));
+  const total = Math.round(142 * easeOut(seg(t, 9.2, 10.6)));
+  const filtered = t >= 14.15;
+  $("count").textContent = filtered ? TEXT.of(2, 142) : TEXT.count(total);
+  const q = typed("pdf", seg(t, 13.3, 13.9));
+  $("q").innerHTML = q ? q + (t < 14.6 ? `<span class="caret" style="opacity:${blink(t)}"></span>` : "") : `<span class="ph">${LANG === "tr" ? "Projelerde ara…" : "Search projects…"}</span>`;
+  for (const c of cards) {
+    const arrive = 9.0 + c.i * 0.11 + 0.62, pop = easeBack(seg(t, arrive, arrive + 0.38));
+    let { x, y } = slot(c.i);
+    let o = clamp(pop * 2.5), s = lerp(0.45, 1, pop);
+    // Scene 4: search "pdf" keeps two cards; pdf-signer slides into slot 1.
+    const hide = easeOut(seg(t, 14.1, 14.55));
+    if (!c.pdf) { o *= 1 - hide; s *= 1 - 0.08 * hide; }
+    if (c.i === 4) { const m = easeInOut(seg(t, 14.4, 15.1)), to = slot(1); x = lerp(x, to.x, m); y = lerp(y, to.y, m); }
+    c.el.style.left = x + "px"; c.el.style.top = y + "px";
+    set(c.el, { s, o });
+    const ring = c.pdf ? easeOut(seg(t, 14.6, 15.0)) : 0;
+    c.el.style.borderColor = ring > 0 ? `rgba(47,69,232,${ring})` : "var(--line)";
+    c.el.style.boxShadow = ring > 0 ? `0 0 0 ${3 * ring}px rgba(47,69,232,.18), 0 10px 24px rgba(20,20,51,${0.1 * ring})` : "none";
+  }
+
+  // Scene 5: click "Claude" on pdf-signer, its session opens.
+  const target = { x: slot(1).x + 176 - 30, y: slot(1).y + 176 - 18 };
+  const cIn = easeOut(seg(t, 16.8, 17.1)), mv = easeInOut(seg(t, 17.0, 17.9));
+  const click = seg(t, 18.0, 18.25), press = click > 0 && click < 1 ? 0.84 : 1;
+  const cOut = seg(t, 18.6, 18.9);
+  set($("cursor"), { x: lerp(560, target.x, mv), y: lerp(430, target.y, mv), s: press, o: cIn * (1 - cOut) });
+  const rip = seg(t, 18.0, 18.6);
+  $("ripple").style.left = target.x + "px"; $("ripple").style.top = target.y + "px";
+  set($("ripple"), { s: lerp(0.2, 1.4, easeOut(rip)), o: rip > 0 && rip < 1 ? 1 - rip : 0 });
+  cards[4].el.querySelector("b").style.textDecoration = t > 17.85 && t < 18.6 ? "underline" : "none";
+  const sIn = easeOut(seg(t, 18.45, 19.05));
+  set($("session"), { x: lerp(784, 0, sIn), o: sIn > 0 ? 1 : 0 });
+  const su = easeOut(seg(t, 19.15, 19.45)), sa = easeOut(seg(t, 19.6, 19.9));
+  set($("sUser"), { y: lerp(10, 0, su), o: su });
+  set($("sAi"), { y: lerp(10, 0, sa), o: sa });
+
+  // Captions.
+  for (const c of capEls) {
+    const i = easeOut(seg(t, c.a, c.a + 0.3)), out = seg(t, c.b - 0.22, c.b);
+    set(c.el, { y: lerp(18, 0, i) - out * 8, o: i * (1 - out) });
+  }
+
+  // Scene 6: outro.
+  const away = easeInOut(seg(t, 20.4, 21.1));
+  set($("computer"), { y: -40 * away, s: lerp(1, 0.72, away), o: 1 - away });
+  const ic = easeBack(seg(t, 20.9, 21.35));
+  oFolders.forEach((f, k) => set(f, { x: (k - 1) * 30, y: (k - 1) * -6, r: (k - 1) * 9, s: ic * (k === 1 ? 1.25 : 1.05), o: clamp(ic * 2) }));
+  const ti = easeBack(seg(t, 21.1, 21.55)), tg = easeOut(seg(t, 21.45, 21.85)), cm = easeOut(seg(t, 21.8, 22.15)), ft = easeOut(seg(t, 22.7, 23.1));
+  set($("oTitle"), { y: lerp(30, 0, ti), s: lerp(0.85, 1, ti), o: clamp(ti * 2) });
+  set($("oTag"), { y: lerp(16, 0, tg), o: tg });
+  set($("oCmd"), { y: lerp(16, 0, cm), o: cm });
+  $("oCmdText").innerHTML = typed("npx -y foldex-mcp", seg(t, 22.0, 22.6)) + (t > 21.8 ? `<span class="caret" style="opacity:${blink(t)}"></span>` : "");
+  set($("oFoot"), { y: lerp(12, 0, ft), o: ft });
+  $("outro").style.visibility = t > 20.8 ? "visible" : "hidden";
+};
+
+window.render(Number(new URLSearchParams(location.search).get("t") ?? 0));
+</script>
+</body>
+</html>

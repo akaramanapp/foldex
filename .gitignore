@@ -1,0 +1,21 @@
+# Dependencies and build output
+node_modules/
+dist/
+*.tgz
+
+# Rendered videos are large binaries; media/source rebuilds them
+media/*.mp4
+media/*.wav
+
+# Local state, logs and secrets
+.env
+.env.*
+*.log
+coverage/
+.foldex/
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
